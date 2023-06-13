@@ -1,12 +1,21 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import { searchRouter } from './src/routes/search.route.js';
 import { searchService } from './src/routes/search.route.js';
+dotenv.config();
+
+
+import { Login } from './src/controller/search.controller.js';
+
 const app = express()
-const port = 4000;
+//const port = 4000;
 
 app.use("/searchRouter", searchRouter);
 
 app.use("/search/Service", searchService);
+
+app.use("/auth", Login);
+
 
 //***************************** Method 3******************************/
 const StudentRouter = express.Router()
@@ -77,6 +86,10 @@ app.route('/search/route')
         res.send("hello i am ./search/route");
     });
 
+// app.listen(process.env.PORT, () => {
+//     console.log(`"its a port ${process.env.PORT}"`);
+// })
+
 app.listen(4000, () => {
-    console.log(`"its a port ${port}"`);
+    console.log(`"its a port ${process.env.PORT}"`);
 })

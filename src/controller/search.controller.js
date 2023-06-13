@@ -1,13 +1,15 @@
 import express from 'express'
 export const searchRouter = express.Router();
-import { deleteResponse,putResponse,getResponse,postResponse } from '../service/search.service.js';
+import { deleteResponse, putResponse, getResponse, postResponse } from '../service/search.service.js';
 
 export const getRequest = async (req, res) => {
     res.send({
         Message: "i am GET from .searchRouter ............!",
         Url: req.baseUrl,
-        Method: req.method
+        Method: req.method,
+        
     });
+    console.log("I Am Express framework");
 }
 
 export const postRequest = async (req, res) => {
@@ -101,5 +103,28 @@ export const deleteResponse1 = async (req, res) => {
             Url: req.baseUrl,
             Method: req.method
         });
+    }
+}
+
+
+import { loginStudent } from '../service/search.service.js';
+//***********************************new addition of authorization with middleware ****/
+export const Login = async (req, res) => {
+    try {
+        console.log("we are in search controller");
+        let Response = await loginStudent(req);
+        console.log("we are in search controller222");
+        res.send({
+            Message: Response,
+            Url: req.baseUrl,
+            Method: req.method,
+        });
+    } catch (error) {
+        console.log(error);
+        res.send({
+            Message: "error",
+            Url: req.baseUrl,
+            Method: req.method,
+        })
     }
 }
