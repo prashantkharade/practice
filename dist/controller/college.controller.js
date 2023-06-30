@@ -14,6 +14,7 @@ const response_handler_1 = require("../common/response.handler");
 const error_handler_1 = require("../common/error.handler");
 const api_error_1 = require("../common/api.error");
 const college_service_1 = require("../service/college.service");
+const college_validation_1 = require("../validation/college/college.validation");
 class CollegeController {
     constructor() {
         this.get = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -45,6 +46,7 @@ class CollegeController {
         });
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
+                yield college_validation_1.Collegevalidator.validateCreateRequest(req.body);
                 let college = yield this.service.createCollege(req);
                 if (college === null) {
                     throw new api_error_1.ApiError("Unable to create college.....!", 400);
@@ -64,7 +66,9 @@ class CollegeController {
                 if (isUpdate === null) {
                     error_handler_1.ErrorHandler.throwNotFoundError(`College with id ${req.params.id} not found`);
                 }
-                const college = yield this.service.updateCollege(req);
+                yield college_validation_1.Collegevalidator.validateUpdateRequest(req.body);
+                const UpdateModel = this.getUpdateModel(req.body);
+                const college = yield this.service.updateCollege(id, UpdateModel);
                 response_handler_1.ResponseHandler.success(req, res, "Successfully updated", 200, college);
             }
             catch (error) {
@@ -79,7 +83,7 @@ class CollegeController {
                     error_handler_1.ErrorHandler.throwNotFoundError(`College with id ${req.params.id} not found`);
                 }
                 const college = yield this.service.deleteCollege(id);
-                const message = "Student record deleted successfully";
+                const message = "College record deleted successfully";
                 response_handler_1.ResponseHandler.success(req, res, message, 200, college);
             }
             catch (error) {
@@ -87,6 +91,13 @@ class CollegeController {
             }
         });
         this.service = new college_service_1.CollegeService();
+    }
+    getUpdateModel(requestBody) {
+        const model = {
+            name: requestBody.name,
+            studentId: requestBody.studentId ? parseInt(requestBody.studentId) : undefined,
+        };
+        return model;
     }
 }
 exports.CollegeController = CollegeController;

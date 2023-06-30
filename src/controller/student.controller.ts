@@ -4,6 +4,8 @@ import { StudentService } from '../service/student.service';
 import { ResponseHandler } from '../common/response.handler';
 import { ErrorHandler } from '../common/error.handler';
 import { ApiError } from '../common/api.error';
+import { Studentvalidator } from '../validation/student/student.validator';
+import { StudentUpdateModel } from '../domain.types/student/student.domain.types';
 
 export class StudentController {
 
@@ -50,6 +52,7 @@ export class StudentController {
 
     create = async (req: express.Request, res: express.Response) => {
         try {
+            await Studentvalidator.validateCreateRequest(req.body)
             console.log("error after try");
             let student = await this.service.createStudent(req);
             console.log("error after method call");
@@ -75,7 +78,10 @@ export class StudentController {
             if (isUpdate === null) {
                 ErrorHandler.throwNotFoundError(`Student with id ${req.params.id} not found`);
             }
-            const student = await this.service.updateStudent(req);
+
+            await Studentvalidator.validateUpdateRequest(req.body);
+            const UpdateModel:StudentUpdateModel = this.getUpdateModel(req.body);
+            const student = await this.service.updateStudent(id,UpdateModel);
             ResponseHandler.success(req, res, "Successfully updated", 200, student);
         } catch (error: any) {
             ResponseHandler.handleError(req, res, error);
@@ -95,10 +101,18 @@ export class StudentController {
             ResponseHandler.success(req, res, message, 200, student);
         } catch (error: any) {
             ResponseHandler.handleError(req, res, error);
+            }
+    };
 
-        }
+
+    private getUpdateModel(requestBody:any):StudentUpdateModel{
+        const model:StudentUpdateModel={
+            name:requestBody.name,
+            age:requestBody.age ? parseInt(requestBody.age) :undefined,
+        };
+        return model;
     }
-
+   
 
 }
 

@@ -6,7 +6,7 @@ class ApiError extends Error {
         super();
         this.Trace = null;
         this.Code = 500;
-        console.log(`Message = ${message}  Error Code = ${errorCode}`);
+        // console.log(`Message = ${message}  Error Code = ${errorCode}`)
         this.message = message !== null && message !== void 0 ? message : 'An unexpected error has occurred. ';
         this.Trace = error != null ? error.stack : '';
         this.Code = errorCode !== null && errorCode !== void 0 ? errorCode : 500;

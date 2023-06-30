@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-const ap_1 = __importDefault(require("./ap"));
+const app_1 = __importDefault(require("./app"));
 dotenv_1.default.config();
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const app = ap_1.default.instance();
+    const app = app_1.default.instance();
     app.start();
 }))();

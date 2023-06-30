@@ -14,6 +14,7 @@ const student_service_1 = require("../service/student.service");
 const response_handler_1 = require("../common/response.handler");
 const error_handler_1 = require("../common/error.handler");
 const api_error_1 = require("../common/api.error");
+const student_validator_1 = require("../validation/student/student.validator");
 class StudentController {
     constructor() {
         this.get = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -45,6 +46,7 @@ class StudentController {
         });
         this.create = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
+                yield student_validator_1.Studentvalidator.validateCreateRequest(req.body);
                 console.log("error after try");
                 let student = yield this.service.createStudent(req);
                 console.log("error after method call");
@@ -67,7 +69,9 @@ class StudentController {
                 if (isUpdate === null) {
                     error_handler_1.ErrorHandler.throwNotFoundError(`Student with id ${req.params.id} not found`);
                 }
-                const student = yield this.service.updateStudent(req);
+                yield student_validator_1.Studentvalidator.validateUpdateRequest(req.body);
+                const UpdateModel = this.getUpdateModel(req.body);
+                const student = yield this.service.updateStudent(id, UpdateModel);
                 response_handler_1.ResponseHandler.success(req, res, "Successfully updated", 200, student);
             }
             catch (error) {
@@ -90,6 +94,13 @@ class StudentController {
             }
         });
         this.service = new student_service_1.StudentService();
+    }
+    getUpdateModel(requestBody) {
+        const model = {
+            name: requestBody.name,
+            age: requestBody.age ? parseInt(requestBody.age) : undefined,
+        };
+        return model;
     }
 }
 exports.StudentController = StudentController;

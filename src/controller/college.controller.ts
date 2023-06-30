@@ -4,6 +4,8 @@ import { ResponseHandler } from '../common/response.handler';
 import { ErrorHandler } from '../common/error.handler';
 import { ApiError } from '../common/api.error';
 import { CollegeService } from '../service/college.service';
+import { Collegevalidator } from '../validation/college/college.validation';
+import { CollegeUpdateModel } from '../domain.types/college/college.domain.types';
 
 
 export class CollegeController {
@@ -50,7 +52,8 @@ export class CollegeController {
 
     create = async (req: express.Request, res: express.Response) => {
         try {
-            
+            await Collegevalidator.validateCreateRequest(req.body)
+
             let college = await this.service.createCollege(req);
           
             if (college === null) {
@@ -75,7 +78,11 @@ export class CollegeController {
             if (isUpdate === null) {
                 ErrorHandler.throwNotFoundError(`College with id ${req.params.id} not found`);
             }
-            const college = await this.service.updateCollege(req);
+
+            await Collegevalidator.validateUpdateRequest(req.body);
+            const UpdateModel:CollegeUpdateModel = this.getUpdateModel(req.body);
+
+            const college = await this.service.updateCollege(id,UpdateModel);
             ResponseHandler.success(req, res, "Successfully updated", 200, college);
         } catch (error: any) {
             ResponseHandler.handleError(req, res, error);
@@ -97,6 +104,14 @@ export class CollegeController {
             ResponseHandler.handleError(req, res, error);
 
         }
+    }
+
+    private getUpdateModel(requestBody:any):CollegeUpdateModel{
+        const model:CollegeUpdateModel={
+            name:requestBody.name,
+            studentId:requestBody.studentId ? parseInt(requestBody.studentId) :undefined,
+        };
+        return model;
     }
 
 

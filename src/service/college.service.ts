@@ -2,18 +2,21 @@ import * as express from 'express'
 
 import { PrismaClient } from '@prisma/client';
 import { CollegeMapper } from '../mapper/college.mapper';
+import { PrismaClientInit } from '../startup/prisma.client.init';
+
 
 export class CollegeService {
     prisma: PrismaClient = null;
     constructor() {
-        this.prisma = new PrismaClient();
+        this.prisma =  PrismaClientInit.instance().getPrismaInstance();
     }
+
 
     getCollege = async (_req: express.Request) => {
         const college = await this.prisma.college.findMany({
            
         });
-        return college;
+        return CollegeMapper.toArrayDto(college);
     }; 
 
     getCollegeById = async (id: number) => {
@@ -37,14 +40,14 @@ export class CollegeService {
     };
 
 
-    updateCollege = async (req: express.Request) => {
+    updateCollege = async (id:any,requestBody:any) => {
         const college = await this.prisma.college.update({
             data:{
-                name:req.body.name,
-                studentId:parseInt(req.body.studentId),
+                name:requestBody.name,
+                studentId:requestBody.studentId,
             },
             where:{
-                id:parseInt(req.params.id),
+                id:parseInt(id),
             },
         });
         return CollegeMapper.toDto(college);

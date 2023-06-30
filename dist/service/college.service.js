@@ -10,14 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CollegeService = void 0;
-const client_1 = require("@prisma/client");
 const college_mapper_1 = require("../mapper/college.mapper");
+const prisma_client_init_1 = require("../startup/prisma.client.init");
 class CollegeService {
     constructor() {
         this.prisma = null;
         this.getCollege = (_req) => __awaiter(this, void 0, void 0, function* () {
             const college = yield this.prisma.college.findMany({});
-            return college;
+            return college_mapper_1.CollegeMapper.toArrayDto(college);
         });
         this.getCollegeById = (id) => __awaiter(this, void 0, void 0, function* () {
             const college = yield this.prisma.college.findUnique({
@@ -36,14 +36,14 @@ class CollegeService {
             });
             return college_mapper_1.CollegeMapper.toDto(college);
         });
-        this.updateCollege = (req) => __awaiter(this, void 0, void 0, function* () {
+        this.updateCollege = (id, requestBody) => __awaiter(this, void 0, void 0, function* () {
             const college = yield this.prisma.college.update({
                 data: {
-                    name: req.body.name,
-                    studentId: parseInt(req.body.studentId),
+                    name: requestBody.name,
+                    studentId: requestBody.studentId,
                 },
                 where: {
-                    id: parseInt(req.params.id),
+                    id: parseInt(id),
                 },
             });
             return college_mapper_1.CollegeMapper.toDto(college);
@@ -56,7 +56,7 @@ class CollegeService {
             });
             return college_mapper_1.CollegeMapper.toDto(college);
         });
-        this.prisma = new client_1.PrismaClient();
+        this.prisma = prisma_client_init_1.PrismaClientInit.instance().getPrismaInstance();
     }
 }
 exports.CollegeService = CollegeService;

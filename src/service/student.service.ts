@@ -2,12 +2,13 @@ import * as express from 'express'
 
 import { PrismaClient } from '@prisma/client';
 import { StudentMapper } from '../mapper/student.mapper';
+import { PrismaClientInit } from '../startup/prisma.client.init';
 
 
 export class StudentService {
     prisma: PrismaClient = null;
     constructor() {
-        this.prisma = new PrismaClient();
+        this.prisma =  PrismaClientInit.instance().getPrismaInstance();
     }
 
     getStudent = async (_req: express.Request) => {
@@ -16,6 +17,7 @@ export class StudentService {
                 college: true,
             },
         });
+        // return StudentMapper.toArrayDto(student);
         return student;
     };
 
@@ -24,8 +26,13 @@ export class StudentService {
             where: {
                 id: id,
             },
+            include: {
+                college: true,
+            },
         });
-        return student;
+        return StudentMapper.toget(student);
+        // return student;
+        
 
     }
 
@@ -40,14 +47,14 @@ export class StudentService {
     };
 
 
-    updateStudent = async (req: express.Request) => {
+    updateStudent = async (id:any,requestBody:any) => {
         const student = await this.prisma.student.update({
             data: {
-                name: req.body.name,
-                age: parseInt(req.body.age),
+                name: requestBody.name,
+                age: requestBody.age,
             },
             where: {
-                id: parseInt(req.params.id),
+                id: parseInt(id),
             },
         });
         return student;

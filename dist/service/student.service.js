@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StudentService = void 0;
-const client_1 = require("@prisma/client");
 const student_mapper_1 = require("../mapper/student.mapper");
+const prisma_client_init_1 = require("../startup/prisma.client.init");
 class StudentService {
     constructor() {
         this.prisma = null;
@@ -21,6 +21,7 @@ class StudentService {
                     college: true,
                 },
             });
+            // return StudentMapper.toArrayDto(student);
             return student;
         });
         this.getStudentById = (id) => __awaiter(this, void 0, void 0, function* () {
@@ -28,8 +29,12 @@ class StudentService {
                 where: {
                     id: id,
                 },
+                include: {
+                    college: true,
+                },
             });
-            return student;
+            return student_mapper_1.StudentMapper.toget(student);
+            // return student;
         });
         this.createStudent = (req) => __awaiter(this, void 0, void 0, function* () {
             const student = yield this.prisma.student.create({
@@ -40,14 +45,14 @@ class StudentService {
             });
             return student_mapper_1.StudentMapper.toDto(student);
         });
-        this.updateStudent = (req) => __awaiter(this, void 0, void 0, function* () {
+        this.updateStudent = (id, requestBody) => __awaiter(this, void 0, void 0, function* () {
             const student = yield this.prisma.student.update({
                 data: {
-                    name: req.body.name,
-                    age: parseInt(req.body.age),
+                    name: requestBody.name,
+                    age: requestBody.age,
                 },
                 where: {
-                    id: parseInt(req.params.id),
+                    id: parseInt(id),
                 },
             });
             return student;
@@ -60,7 +65,7 @@ class StudentService {
             });
             return student;
         });
-        this.prisma = new client_1.PrismaClient();
+        this.prisma = prisma_client_init_1.PrismaClientInit.instance().getPrismaInstance();
     }
 }
 exports.StudentService = StudentService;
