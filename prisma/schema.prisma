@@ -14,12 +14,13 @@ model Student {
   id      Int      @id @default(autoincrement())
   name    String
   age     Int
+
   college College?
 }
 
 model College {
   id        Int     @id @default(autoincrement())
   name      String
-  student   Student @relation(fields: [studentId], references: [id],onDelete: Cascade,onUpdate: Cascade)
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   studentId Int     @unique
 }

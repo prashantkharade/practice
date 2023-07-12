@@ -46,7 +46,7 @@ export class ErrorHandler {
     static handleValidationError = (error:any) => {
         if (error.isJoi === true) {
             //Logger.instance().log(error.message);
-            const errorMessages = error.details.map((x: { message: any; }) => x.message);
+            const errorMessages = error.details.map((x: { message: any }) => x.message);
             ErrorHandler.throwInputValidationError(errorMessages);
         }
         else {

@@ -21,7 +21,7 @@ export class StudentService {
         return student;
     };
 
-    getStudentById = async (id: number) => {
+    getStudentById =  async (id: number) => {
         const student = await this.prisma.student.findUnique({
             where: {
                 id: id,

@@ -52,7 +52,7 @@ export class CollegeController {
 
     create = async (req: express.Request, res: express.Response) => {
         try {
-            await Collegevalidator.validateCreateRequest(req.body)
+            await Collegevalidator.validateCreateRequest(req.body);
 
             let college = await this.service.createCollege(req);
           
