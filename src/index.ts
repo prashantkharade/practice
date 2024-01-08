@@ -1,14 +1,9 @@
-import dotenv from 'dotenv'
-import Application from './app';
-
+import dotenv from "dotenv";
+import Application from "./app";
 
 dotenv.config();
 
-(async ()=>{
-    const app =Application.instance();
-    app.start();
+(async () => {
+  const app = Application.instance();
+  app.start();
 })();
-
-
-
-

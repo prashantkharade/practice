@@ -1,7 +1,7 @@
 import { register as studentRegisterRoutes } from '../routes/student.route';
 import { register as collegeRegisterRoutes } from '../routes/college.router';
 
-import express from 'express'
+import express from 'express';
 
 
 export class Router {

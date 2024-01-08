@@ -16,8 +16,6 @@ const express_1 = __importDefault(require("express"));
 const router_1 = require("./startup/router");
 class Application {
     constructor() {
-        this._app = null;
-        this._router = null;
         this.start = () => __awaiter(this, void 0, void 0, function* () {
             try {
                 this._router.init();
@@ -52,5 +50,4 @@ class Application {
         return this._instance || (this._instance = new this());
     }
 }
-Application._instance = null;
 exports.default = Application;

@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { ErrorHandler } from "../../common/error.handler";
-import validator from 'validator';
+// import validator from 'validator';
 
 export class Studentvalidator{
     static async validateCreateRequest(requestBody:any){

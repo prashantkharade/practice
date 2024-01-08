@@ -41,6 +41,11 @@ class StudentService {
                 data: {
                     name: req.body.name,
                     age: parseInt(req.body.age),
+                    college: {
+                        create: {
+                            name: "pune",
+                        },
+                    },
                 },
             });
             return student_mapper_1.StudentMapper.toDto(student);

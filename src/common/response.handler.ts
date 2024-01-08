@@ -1,6 +1,7 @@
 import express from 'express';
 import { ApiError } from './api.error';
 import { ResponseDto } from '../domain.types/miscellaneous/response.dto';
+import { number } from 'joi';
 
 export class ResponseHandler {
     constructor() {}
@@ -12,7 +13,7 @@ export class ResponseHandler {
       httpCode: number,
       data?: any
     ) {
-      const responseObject: ResponseDto = {
+      const responseObject: ResponseDto  = {
         Status: "success",
         Message: message,
         HttpCode: httpCode ?? 200,
