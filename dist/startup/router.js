@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Router = void 0;
-const student_route_1 = require("../routes/student.route");
-const college_router_1 = require("../routes/college.router");
+const question_route_1 = require("../routes/question.route");
+const node_router_1 = require("../routes/node.router");
 class Router {
     constructor(app) {
         this.init = () => __awaiter(this, void 0, void 0, function* () {
@@ -20,9 +20,8 @@ class Router {
                     this._app.get("/api/v1", (req, res) => {
                         res.send({ message: "Demo api service" });
                     });
-                    (0, student_route_1.register)(this._app);
-                    console.log("at college");
-                    (0, college_router_1.register)(this._app);
+                    (0, question_route_1.register)(this._app);
+                    (0, node_router_1.register)(this._app);
                 }
                 catch (error) {
                     console.log("Error initilizing the routes");
@@ -33,3 +32,4 @@ class Router {
     }
 }
 exports.Router = Router;
+//# sourceMappingURL=router.js.map

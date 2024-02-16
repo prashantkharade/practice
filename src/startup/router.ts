@@ -1,5 +1,5 @@
-import { register as studentRegisterRoutes } from '../routes/student.route';
-import { register as collegeRegisterRoutes } from '../routes/college.router';
+import { register as questionRegisterRoutes } from '../routes/question.route';
+import { register as nodeRegisterRoutes } from '../routes/node.router';
 
 import express from 'express'
 
@@ -17,9 +17,8 @@ export class Router {
                     res.send({ message: "Demo api service" })
                 })
 
-                studentRegisterRoutes(this._app);
-                console.log("at college");
-                collegeRegisterRoutes(this._app);
+                questionRegisterRoutes(this._app);
+                nodeRegisterRoutes(this._app);
             } catch (error) {
                 console.log("Error initilizing the routes")
             }

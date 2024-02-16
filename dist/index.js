@@ -19,3 +19,4 @@ dotenv_1.default.config();
     const app = app_1.default.instance();
     app.start();
 }))();
+//# sourceMappingURL=index.js.map

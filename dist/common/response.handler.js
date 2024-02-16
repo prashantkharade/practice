@@ -6,16 +6,16 @@ class ResponseHandler {
     constructor() { }
     static success(request, response, message, httpCode, data) {
         const responseObject = {
-            Status: "success",
-            Message: message,
-            HttpCode: httpCode !== null && httpCode !== void 0 ? httpCode : 200,
-            Request: {
-                Method: request ? request.method : null,
-                Host: request ? request.hostname : null,
-                Body: request ? request.body : null,
-                Url: request ? request.originalUrl : null,
-                Params: request ? request.params : null,
-            },
+            // Status: "success",
+            // Message: message,
+            // HttpCode: httpCode ?? 200,
+            // Request: {
+            //   Method: request ? request.method : null,
+            //   Host: request ? request.hostname : null,
+            //   Body: request ? request.body : null,
+            //   Url: request ? request.originalUrl : null,
+            //   Params: request ? request.params : null,
+            // },
             Data: data !== null && data !== void 0 ? data : null,
         };
         response.status(httpCode).send(responseObject);
@@ -27,16 +27,16 @@ class ResponseHandler {
                 ? message
                 : "An error has occurred.";
         const responseObject = {
-            Status: "failure",
-            Message: msg,
-            Request: {
-                Method: request ? request.method : null,
-                Host: request ? request.hostname : null,
-                Body: request ? request.body : null,
-                Url: request ? request.originalUrl : null,
-                Params: request ? request.params : null,
-            },
-            HttpCode: httpErrorCode ? httpErrorCode : 500,
+        // Status: "failure",
+        // Message: msg,
+        // Request: {
+        //   Method: request ? request.method : null,
+        //   Host: request ? request.hostname : null,
+        //   Body: request ? request.body : null,
+        //   Url: request ? request.originalUrl : null,
+        //   Params: request ? request.params : null,
+        // },
+        // HttpCode: httpErrorCode ? httpErrorCode : 500,
         };
         response.status(httpErrorCode).send(responseObject);
     }
@@ -51,3 +51,4 @@ class ResponseHandler {
     }
 }
 exports.ResponseHandler = ResponseHandler;
+//# sourceMappingURL=response.handler.js.map

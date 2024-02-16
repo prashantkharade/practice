@@ -54,3 +54,4 @@ class Application {
 }
 Application._instance = null;
 exports.default = Application;
+//# sourceMappingURL=app.js.map

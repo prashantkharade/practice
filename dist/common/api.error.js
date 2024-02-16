@@ -13,3 +13,4 @@ class ApiError extends Error {
     }
 }
 exports.ApiError = ApiError;
+//# sourceMappingURL=api.error.js.map

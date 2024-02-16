@@ -47,3 +47,4 @@ ErrorHandler.handleValidationError = (error) => {
         ErrorHandler.throwInputValidationError(error.message);
     }
 };
+//# sourceMappingURL=error.handler.js.map

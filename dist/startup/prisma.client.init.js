@@ -16,3 +16,4 @@ class PrismaClientInit {
 }
 exports.PrismaClientInit = PrismaClientInit;
 PrismaClientInit._instance = null;
+//# sourceMappingURL=prisma.client.init.js.map
